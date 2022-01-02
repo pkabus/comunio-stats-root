@@ -35,7 +35,7 @@ services:
       - "mysql"
       - "comunio-stats-backend"
     ports:
-      - "1337:5000"
+      - "1337:3000"
 
 volumes:
   db-data:

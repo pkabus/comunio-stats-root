@@ -29,7 +29,7 @@ RUN npm install -g serve
 CMD ["serve", "-s", "build"]
 
 # Expose port
-EXPOSE 5000
+EXPOSE 3000
 
 # docker run -itd --rm --name comunio-stats-frontend -p 1337:5000 comunio-stats-frontend:piprod
 #
