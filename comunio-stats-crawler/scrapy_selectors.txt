@@ -1,0 +1,9 @@
+# Bayern
+
+scrapy shell https://www1.comstats.de/squad/1-FC+Bayern+M%C3%BCnchen
+
+tr=response.xpath("//tbody/tr")
+player_0=tr[0]
+player_0_name=player_0.xpath(".//a[contains(@class,'playerName')]/text()").extract_first()
+player_0_id=player_0.xpath(".//a/@href").extract_first()
+player_0_market_value=player_0.xpath(".//td[@class='right']/span/span/text()").extract_first()

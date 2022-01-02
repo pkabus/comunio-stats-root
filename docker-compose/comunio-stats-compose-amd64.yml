@@ -1,0 +1,41 @@
+version: '3.1'
+services:
+  mysql:
+    container_name: comunio-stats-db
+    image: yobasystems/alpine-mariadb:10.4.17
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./init/db:/docker-entrypoint-initdb.d
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_comunio
+      MYSQL_USER: mysqluser
+      MYSQL_PASSWORD: 123456
+    ports:
+      - "3306:3306"
+      
+  comunio-stats-backend:
+    container_name: comunio-stats-backend
+    image: pkabus/comunio-stats-backend:prod
+    restart: on-failure
+    depends_on: 
+      - "mysql"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/db_comunio?allowPublicKeyRetrieval=true&useSSL=false
+    ports:
+      - "8080:8080"
+
+  comunio-stats-frontend:
+    container_name: comunio-stats-frontend
+    image: pkabus/comunio-stats-frontend:prod
+    restart: on-failure
+    depends_on:
+      - "mysql"
+      - "comunio-stats-backend"
+    ports:
+      - "1337:3000"
+
+volumes:
+  db-data:
