@@ -6,8 +6,10 @@ import static pkabus.comuniostatsbackend.web.controller.PlayerController.ALL;
 import static pkabus.comuniostatsbackend.web.controller.PlayerController.BASE_PLAYERS;
 import static pkabus.comuniostatsbackend.web.controller.PlayerController.CREATE;
 
+import java.util.Collection;
 import java.util.Random;
 
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -66,5 +68,27 @@ public class PlayerRestApiTest {
 				PlayerDto.class);
 
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+	}
+
+	@Test
+	void givenPlayer_whenByNameContains_then200Ok_and_thenExpectExactlyOne() {
+		String name = randomAlphabetic(16);
+
+		PlayerDto playerDto = new PlayerDto(name, randomAlphabetic(6));
+		restTemplate.withBasicAuth("crawler", "password").postForEntity(BASE_PLAYERS + CREATE, playerDto, Void.class);
+
+		ResponseEntity<PagedModel<PlayerDto>> responseList = restTemplate.exchange(
+				BASE_PLAYERS + "/q?name=" + name.substring(3, 14), HttpMethod.GET, null,
+				new PagedModelType<PlayerDto>() {
+				});
+
+		Collection<PlayerDto> players = responseList.getBody().getContent();
+
+		SoftAssertions softAssertions = new SoftAssertions();
+
+		softAssertions.assertThat(responseList.getStatusCode()).isEqualTo(HttpStatus.OK);
+		softAssertions.assertThat(players).usingElementComparatorIgnoringFields("id").containsExactly(playerDto);
+
+		softAssertions.assertAll();
 	}
 }
