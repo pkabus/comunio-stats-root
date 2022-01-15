@@ -26,4 +26,6 @@ public interface ClubService {
 	void delete(ClubEntity entity);
 
 	void deleteByName(String name);
+
+	Page<ClubEntity> findByNameContains(String substring, Pageable page);
 }

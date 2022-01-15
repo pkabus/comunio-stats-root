@@ -11,6 +11,8 @@ import java.util.Random;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import pkabus.comuniostatsbackend.persistence.model.ClubEntity;
 import pkabus.comuniostatsbackend.persistence.model.PlayerEntity;
@@ -20,7 +22,7 @@ import pkabus.comuniostatsbackend.persistence.model.PlayerSnapshotEntity;
 public class ClubServiceIntegrationTest {
 
 	@Autowired
-	private ClubService clubService;
+	private ClubService sut;
 
 	@Autowired
 	private FlatPlayerSnapshotService flatPlayerSnapshotService;
@@ -33,7 +35,7 @@ public class ClubServiceIntegrationTest {
 		}
 
 		// sut
-		List<ClubEntity> result = clubService.findAllOfDate(LocalDate.now().plusDays(473));
+		List<ClubEntity> result = sut.findAllOfDate(LocalDate.now().plusDays(473));
 
 		// verify
 		assertThat(result).usingElementComparatorIgnoringFields("id")//
@@ -49,5 +51,31 @@ public class ClubServiceIntegrationTest {
 		flatPlayerSnapshotService.getOrSave(entityNow0);
 
 		return clubEntity0;
+	}
+
+	@Test
+	void findByNameContains_expectExactlyOne_thenSuccess() {
+		String randName = randomAlphabetic(16);
+		ClubEntity playerEntity0 = new ClubEntity(randName);
+
+		// persist
+		ClubEntity playerEntity = sut.save(playerEntity0);
+
+		// verify
+		Page<ClubEntity> byNameContains = sut.findByNameContains(randName.substring(1, 14), PageRequest.of(0, 20));
+		assertThat(byNameContains.getContent()).containsExactly(playerEntity);
+	}
+
+	@Test
+	void findByNameContains_caseInsensitive_expectExactlyOne_thenSuccess() {
+		String randName = randomAlphabetic(16);
+		ClubEntity playerEntity0 = new ClubEntity(randName);
+
+		// persist
+		ClubEntity playerEntity = sut.save(playerEntity0);
+
+		// verify
+		Page<ClubEntity> byNameContains = sut.findByNameContains(randName.substring(1, 14).toLowerCase(), PageRequest.of(0, 20));
+		assertThat(byNameContains.getContent()).containsExactly(playerEntity);
 	}
 }
