@@ -1,5 +1,7 @@
 package pkabus.comuniostatsbackend.service.impl;
 
+import static pkabus.comuniostatsbackend.persistence.specification.PlayerSpecification.nameContains;
+
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -64,6 +66,11 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	public Page<PlayerEntity> findByName(final String name, final Pageable page) {
 		return playerRepo.findByName(name, page);
+	}
+
+	@Override
+	public Page<PlayerEntity> findByNameContains(final String name, final Pageable page) {
+		return playerRepo.findAll(nameContains(name), page);
 	}
 
 	@Override

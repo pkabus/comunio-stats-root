@@ -84,6 +84,19 @@ public class PlayerController {
 		return toDto(playerEntity);
 	}
 
+	@GetMapping // TODO params and path...
+	@CrossOrigin // to enable frontend requests on same host, TODO set domain where frontend is
+	// going to run! Should be a property
+	public PagedModel<PlayerDto> byNameContains(@RequestParam final String name,
+			@RequestParam(defaultValue = "0") final Integer page,
+			@RequestParam(defaultValue = "20") final Integer size) {
+		Page<PlayerDto> playerPage = playerService.findByNameContains(name, PageRequest.of(page, size)) //
+				.map(this::toDto);
+
+		return PagedModel.of(playerPage.getContent(),
+				new PageMetadata(playerPage.getSize(), playerPage.getNumber(), playerPage.getTotalElements()));
+	}
+
 	@PostMapping(CREATE)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void create(@RequestBody final PlayerDto player) {
