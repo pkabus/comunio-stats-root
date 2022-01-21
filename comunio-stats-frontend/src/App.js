@@ -1,5 +1,6 @@
 import './App.css';
 import ClubList from './components/ClubList'
+import Search from './components/Search'
 import ClubItem from './components/ClubItem'
 import PlayerItem from './components/PlayerItem'
 import {
@@ -15,7 +16,8 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/">
-            <ClubList />
+            {/* <ClubList /> */}
+            <Search />
           </Route>
           <Route path="/clubs/:clubId" component={ClubItem} />
           <Route path="/players/:playerId" component={PlayerItem} />
