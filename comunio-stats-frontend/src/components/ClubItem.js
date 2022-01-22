@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { backend_properties } from '../backend_properties.js'
+import backend_properties from '../backend_properties.js'
 import { Link } from 'react-router-dom'
 import { ListGroup } from 'react-bootstrap'
 
@@ -18,9 +18,9 @@ class ClubItem extends Component {
 
     componentDidMount() {
         const { clubId } = this.props.match.params
-        const { backend_host, backend_port } = backend_properties
+        const { url } = backend_properties
 
-        axios.get(`http://${backend_host}:${backend_port}/clubs?id=${clubId}`)
+        axios.get(`http://${url}/clubs?id=${clubId}`)
             .then(response => {
                 this.setState({
                     name: response.data.name
@@ -32,7 +32,7 @@ class ClubItem extends Component {
                 })
             })
 
-        axios.get(`http://${backend_host}:${backend_port}/players/snapshots?clubId=${clubId}&mostRecentOnly=true&size=50`)
+        axios.get(`http://${url}/players/snapshots?clubId=${clubId}&mostRecentOnly=true&size=50`)
             .then(response => {
                 this.setState({
                     playerSnapshots: response.data._embedded.player_snapshot_dto_list
