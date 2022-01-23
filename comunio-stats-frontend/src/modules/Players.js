@@ -1,5 +1,4 @@
 import { SUCCESS_SUFFIX } from "redux-axios-middleware";
-import HttpService from "../services/HttpService";
 
 export const LIST_PLAYER_SNAPSHOTS_OF_CLUB = 'LIST_PLAYER_SNAPSHOTS_OF_CLUB';
 export const LIST_PLAYER_SNAPSHOTS = 'LIST_PLAYER_SNAPSHOTS';
@@ -8,7 +7,8 @@ export const SEARCH_PLAYERS = 'SEARCH_PLAYERS';
 const clubsReducer = (state = [], action) => {
     switch (action.type) {
         case LIST_PLAYER_SNAPSHOTS_OF_CLUB + SUCCESS_SUFFIX:
-            return action.payload.data;
+        case SEARCH_PLAYERS + SUCCESS_SUFFIX:
+            return action.payload.data._embedded ? action.payload.data._embedded.player_dto_list : [];
 
         default:
             return state;
