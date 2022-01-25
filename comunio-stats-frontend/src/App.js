@@ -1,5 +1,4 @@
 import './App.css';
-import ClubList from './components/ClubList'
 import { Provider } from "react-redux";
 import Search from './components/Search'
 import ClubItem from './components/ClubItem'
@@ -21,7 +20,6 @@ const App = () => {
         <Router>
           <Switch>
             <Route exact path="/">
-              {/* <ClubList /> */}
               <Search />
             </Route>
             <Route path="/clubs/:clubId" component={ClubItem} />
