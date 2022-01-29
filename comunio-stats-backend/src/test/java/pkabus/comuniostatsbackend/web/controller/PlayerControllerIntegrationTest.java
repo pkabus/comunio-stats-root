@@ -59,10 +59,11 @@ public class PlayerControllerIntegrationTest {
 		PlayerDto playerDtoByLink = playerController.byLink(link);
 
 		FlatPlayerSnapshotDto playerSnapshotDto = new FlatPlayerSnapshotDto(playerDtoByLink.getName(),
-				playerDto.getLink(), randomAlphabetic(6), new Random().nextInt(),
-				savedClubDto.getName(), new Random().nextLong(), LocalDate.now());
+				playerDto.getLink(), randomAlphabetic(6), new Random().nextInt(), savedClubDto.getName(),
+				new Random().nextLong(), LocalDate.now());
 		flatPlayerSnapshotController.add(playerSnapshotDto);
-		PagedModel<PlayerSnapshotDto> byPlayerId = playerSnapshotController.byPlayerId(playerDtoByLink.getId(), 0, 20, null);
+		PagedModel<PlayerSnapshotDto> byPlayerId = playerSnapshotController.byPlayerId(playerDtoByLink.getId(), 0, 20,
+				null);
 
 		assertThat(byPlayerId.getContent()).usingElementComparatorIgnoringFields("id", "club", "player")
 				.containsExactly(flatSnapshotToSnapshot(playerSnapshotDto));
@@ -99,11 +100,11 @@ public class PlayerControllerIntegrationTest {
 
 		// create two snapshots for the same player
 		FlatPlayerSnapshotDto playerOneSnapshotDto = new FlatPlayerSnapshotDto(savedPlayerOneDto.getName(),
-				savedPlayerOneDto.getLink(), randomAlphabetic(6), new Random().nextInt(),
-				savedClubDto.getName(), new Random().nextLong(), LocalDate.now().minusDays(1));
+				savedPlayerOneDto.getLink(), randomAlphabetic(6), new Random().nextInt(), savedClubDto.getName(),
+				new Random().nextLong(), LocalDate.now().minusDays(1));
 		FlatPlayerSnapshotDto playerOneNewerSnapshotDto = new FlatPlayerSnapshotDto(savedPlayerOneDto.getName(),
-				savedPlayerOneDto.getLink(), randomAlphabetic(6), new Random().nextInt(),
-				savedClubDto.getName(), new Random().nextLong(), LocalDate.now());
+				savedPlayerOneDto.getLink(), randomAlphabetic(6), new Random().nextInt(), savedClubDto.getName(),
+				new Random().nextLong(), LocalDate.now());
 		flatPlayerSnapshotController.add(Arrays.array(playerOneSnapshotDto, playerOneNewerSnapshotDto));
 
 		// create another player + snapshot
@@ -114,12 +115,12 @@ public class PlayerControllerIntegrationTest {
 		PlayerDto savedPlayerTwoDto = playerController.byName(playerTwoName, 0, 20).getContent().iterator().next();
 
 		FlatPlayerSnapshotDto playerTwoSnapshotDto = new FlatPlayerSnapshotDto(savedPlayerTwoDto.getName(),
-				savedPlayerTwoDto.getLink(), randomAlphabetic(6), new Random().nextInt(),
-				savedClubDto.getName(), new Random().nextLong(), LocalDate.now().minusDays(1));
+				savedPlayerTwoDto.getLink(), randomAlphabetic(6), new Random().nextInt(), savedClubDto.getName(),
+				new Random().nextLong(), LocalDate.now().minusDays(1));
 		flatPlayerSnapshotController.add(playerTwoSnapshotDto);
 
-		PagedModel<PlayerSnapshotDto> distinctByClubName = playerSnapshotController
-				.byClubNameAndDate(clubDto.getName(), LocalDate.now().minusDays(1), 0, 20, null);
+		PagedModel<PlayerSnapshotDto> distinctByClubName = playerSnapshotController.byClubNameAndDate(clubDto.getName(),
+				LocalDate.now().minusDays(1), 0, 20, null);
 
 		assertThat(distinctByClubName.getContent()) //
 				.usingElementComparatorIgnoringFields("id", "club", "player") //

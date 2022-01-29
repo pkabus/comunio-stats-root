@@ -13,6 +13,8 @@ public interface PlayerService {
 
 	PlayerEntity save(PlayerEntity club);
 
+	Page<PlayerEntity> findByNameContains(String name, Pageable page);
+
 	Page<PlayerEntity> findByName(String name, Pageable page);
 
 	Optional<PlayerEntity> findByLink(String link);
@@ -24,4 +26,5 @@ public interface PlayerService {
 	void deleteAll();
 
 	void deleteByLink(String link);
+
 }

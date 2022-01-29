@@ -21,6 +21,8 @@ import pkabus.comuniostatsbackend.persistence.repository.ClubRepository;
 import pkabus.comuniostatsbackend.persistence.repository.PlayerSnapshotRepository;
 import pkabus.comuniostatsbackend.service.ClubService;
 
+import static pkabus.comuniostatsbackend.persistence.specification.ClubSpecification.nameContains;
+
 @Service
 public class ClubServiceImpl implements ClubService {
 
@@ -88,6 +90,11 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
+	public Page<ClubEntity> findByNameContains(final String name, final Pageable page) {
+		return clubRepo.findAll(nameContains(name), page);
+	}
+
+	@Override
 	public void deleteAll() {
 		clubRepo.deleteAll();
 	}
@@ -102,5 +109,4 @@ public class ClubServiceImpl implements ClubService {
 		clubRepo.findByName(name).ifPresentOrElse(clubRepo::delete,
 				() -> logger.info(String.format("Club '%s' not found. Cannot be deleted.", name)));
 	}
-
 }

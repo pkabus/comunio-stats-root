@@ -42,6 +42,7 @@ public class CreateClubsIntegrationTest {
 		clubController.create(club);
 		clubController.create(club);
 
-		assertThat(clubController.all(0, 9999).getContent()).usingElementComparatorIgnoringFields("id").containsOnlyOnce(club);
+		assertThat(clubController.all(0, 9999).getContent()).usingElementComparatorIgnoringFields("id")
+				.containsOnlyOnce(club);
 	}
 }

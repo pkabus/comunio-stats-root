@@ -1,72 +1,54 @@
-import React, { Component } from 'react'
-import axios from 'axios'
-import { backend_properties } from '../backend_properties.js'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { ListGroup } from 'react-bootstrap'
+import { getClub } from '../modules/clubs'
+import { allPlayersOfClub } from '../modules/playerSnapshots'
 
-class ClubItem extends Component {
+const ClubItem = (props) => {
 
-    constructor(props) {
-        super(props)
+    const { clubId } = props.match.params
+    const dispatch = useDispatch()
+    const { clubs, playerSnapshots } = useSelector((state) => {
+        return state
+    })
 
-        this.state = {
-            name: '',
-            playerSnapshots: [],
-            errorMsg: ''
-        }
+    useEffect(() => {
+        dispatch(getClub(clubId))
+        dispatch(allPlayersOfClub(clubId))
+    }, [clubId, dispatch])
+
+
+    if (!clubs || !clubs.length || !playerSnapshots) {
+        return <div />
     }
 
-    componentDidMount() {
-        const { clubId } = this.props.match.params
-        const { backend_host, backend_port } = backend_properties
-
-        axios.get(`http://${backend_host}:${backend_port}/clubs?id=${clubId}`)
-            .then(response => {
-                this.setState({
-                    name: response.data.name
-                })
-            })
-            .catch(error => {
-                this.setState({
-                    errorMsg: error.message
-                })
-            })
-
-        axios.get(`http://${backend_host}:${backend_port}/players/snapshots?clubId=${clubId}&mostRecentOnly=true&size=50`)
-            .then(response => {
-                this.setState({
-                    playerSnapshots: response.data._embedded.player_snapshot_dto_list
-                })
-            })
-            .catch(error => {
-                this.setState({
-                    errorMsg: error.message
-                })
-            })
-    }
-
-    render() {
-        // const { name } = this.props.location.state
-        const { name, playerSnapshots, errorMsg } = this.state
-        if (errorMsg) {
-            console.error(errorMsg)
-        }
-        return (
-            <div>
-                <h1>{name}</h1>
-                <ListGroup varian="flush">
-                    {
-                        playerSnapshots.length ?
-                            playerSnapshots.map(snapshot =>
-                                <ListGroup.Item key={snapshot.player.id}>
-                                    <Link to={`/players/${snapshot.player.id}`}>{snapshot.player.name}</Link>
-                                </ListGroup.Item>)
-                            : null
-                    }
-                </ListGroup>
+    return (
+        <div className="container mt-3">
+            <div className="row mb-3 col-12 px-2">
+                <h1>{clubs[0].name}</h1>
             </div>
-        )
-    }
+            <div className="row">
+                <div className="list-group col-12 px-2">
+                    {playerSnapshots.map((snapshot) => (
+                        <div key={snapshot.player.id} className="list-group-item list-group-item-action flex-column align-items-start">
+                            <Link to={`/players/${snapshot.player.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                                <div className="d-flex flex-fill justify-content-between">
+                                    <h5 className="mb-3 mt-3">{snapshot.player.name}</h5>
+                                    <div className="d-flex justify-content-end">
+                                        <small>{snapshot.points_during_current_season} points in season</small>
+                                        <small className="ml-3">{snapshot.position}</small>
+                                    </div>
+                                </div>
+                            </Link>
+                        </div>
+                    ))
+                    }
+                </div>
+            </div>
+        </div>
+    )
+
 }
+
 
 export default ClubItem

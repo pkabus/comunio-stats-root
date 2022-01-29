@@ -1,6 +1,7 @@
 /* properties.js */
 
-export const backend_properties = {
-    backend_host: process.env.REACT_APP_BACKEND_HOST ? process.env.REACT_APP_BACKEND_HOST : "api-comuniohelper.ddns.net",
-    backend_port: process.env.REACT_APP_BACKEND_PORT ? process.env.REACT_APP_BACKEND_PORT : "8080"
+const backend_properties = {
+    url: process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : "http://localhost:8080",
 };
+
+export default backend_properties
