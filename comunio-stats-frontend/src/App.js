@@ -1,6 +1,5 @@
 import './App.css';
 import { Provider } from "react-redux";
-import Search from './components/Search'
 import ClubItem from './components/ClubItem'
 import PlayerItem from './components/PlayerItem'
 import {
@@ -8,8 +7,9 @@ import {
   Switch,
   Route
 } from "react-router-dom"
-import 'bootstrap/dist/css/bootstrap.min.css';
 import StoreService from './services/StoreService'
+import LandingPage from './components/LandingPage';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const store = StoreService.setup();
 
@@ -20,7 +20,7 @@ const App = () => {
         <Router>
           <Switch>
             <Route exact path="/">
-              <Search />
+              <LandingPage />
             </Route>
             <Route path="/clubs/:clubId" component={ClubItem} />
             <Route path="/players/:playerId" component={PlayerItem} />

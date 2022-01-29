@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-import Clubs from "./Clubs";
-import Players from "./Players";
-// import notifications from "./notifications";
-// import loading from "./loading"
+import clubs from "./clubs";
+import players from "./players";
+import playerSnapshots from "./playerSnapshots";
 
 export default combineReducers({
-    Clubs,
-    Players
+    clubs,
+    players,
+    playerSnapshots
 });

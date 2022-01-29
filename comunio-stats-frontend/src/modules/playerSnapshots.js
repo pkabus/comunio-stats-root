@@ -1,21 +1,20 @@
+
 import { SUCCESS_SUFFIX } from "redux-axios-middleware";
 
 export const LIST_PLAYER_SNAPSHOTS_OF_CLUB = 'LIST_PLAYER_SNAPSHOTS_OF_CLUB';
 export const LIST_PLAYER_SNAPSHOTS = 'LIST_PLAYER_SNAPSHOTS';
-export const SEARCH_PLAYERS = 'SEARCH_PLAYERS';
 
-const clubsReducer = (state = [], action) => {
+const playerSnapshotsReducer = (state = [], action) => {
     switch (action.type) {
+        case LIST_PLAYER_SNAPSHOTS + SUCCESS_SUFFIX:
         case LIST_PLAYER_SNAPSHOTS_OF_CLUB + SUCCESS_SUFFIX:
-        case SEARCH_PLAYERS + SUCCESS_SUFFIX:
-            return action.payload.data._embedded ? action.payload.data._embedded.player_dto_list : [];
-
+            return action.payload.data._embedded ? action.payload.data._embedded.player_snapshot_dto_list : [];
         default:
             return state;
     }
 };
 
-export default clubsReducer;
+export default playerSnapshotsReducer;
 
 export const allPlayersOfClub = (clubId) => ({
     type: LIST_PLAYER_SNAPSHOTS_OF_CLUB,
@@ -34,12 +33,3 @@ export const getPlayerSnapshots = (playerId, start, end) => ({
         }
     }
 })
-
-export const searchPlayers = (query) => ({
-    type: SEARCH_PLAYERS,
-    payload: {
-        request: {
-            url: `/players/q?name=${query}`,
-        }
-    }
-});

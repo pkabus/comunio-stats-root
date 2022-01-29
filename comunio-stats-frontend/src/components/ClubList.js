@@ -1,59 +1,41 @@
-import React, { Component } from 'react'
-import axios from 'axios'
-import backend_properties from '../backend_properties.js'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { ListGroup } from 'react-bootstrap'
+import { allClubs } from '../modules/clubs'
 
-class ClubList extends Component {
+const ClubList = () => {
 
-    constructor(props) {
-        super(props)
+    const dispatch = useDispatch()
+    const { clubs } = useSelector((state) => {
+        return state
+    })
 
-        this.state = {
-            clubs: [],
-            errorMsg: ''
-        }
-    }
-
-    componentDidMount() {
-        const { url } = backend_properties
-        axios.get(`http://${url}/clubs`)
-            .then(response => {
-                this.setState({
-                    clubs: response.data
-                })
-            })
-            .catch(error => {
-                this.setState({
-                    errorMsg: error.message
-                })
-            })
-    }
+    useEffect(() => {
+        dispatch(allClubs())
+    }, [dispatch])
 
 
-    render() {
-        const { clubs, errorMsg } = this.state
-        if (errorMsg) {
-            console.error(errorMsg)
-        }
-        return (
-            <div>
-                <h1>Bundesliga Clubs</h1>
-                <ListGroup variant="flush">
-                    {
-                        clubs.length ?
-                            clubs.map(club =>
-                                <ListGroup.Item key={club.id}>
-                                    <Link to={{
-                                        pathname: `/clubs/${club.id}`,
-                                    }}>{club.name}</Link>
-                                </ListGroup.Item>)
-                            : null
-                    }
-                </ListGroup>
+    return (
+        <div className="container mt-3">
+            <div className="row mb-3 col-12 px-2">
+                <h1>Bundesliga clubs</h1>
             </div>
-        )
-    }
+            <div className="row">
+                <div className="list-group col-12 px-2">
+                    {clubs.map((club) => (
+                        <div key={club.id} className="list-group-item list-group-item-action flex-column align-items-start">
+                            <Link to={`/clubs/${club.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                                <div className="d-flex flex-fill justify-content-between">
+                                    <h5 className="mb-3 mt-3">{club.name}</h5>
+                                </div>
+                            </Link>
+                        </div>
+                    ))
+                    }
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default ClubList
