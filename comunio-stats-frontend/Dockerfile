@@ -15,8 +15,7 @@ RUN npm install --silent
 COPY . .
 
 # environment variables
-ENV REACT_APP_BACKEND_HOST localhost
-ENV REACT_APP_BACKEND_PORT 8080
+ENV REACT_APP_BACKEND_URL http://localhost:8080
 
 # build application
 RUN npm run build

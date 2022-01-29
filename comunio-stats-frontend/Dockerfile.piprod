@@ -10,14 +10,12 @@ ENV PATH /app/node_modules/.bin:$PATH
 # install app dependencies
 COPY package*.json ./
 RUN npm install --silent
-RUN npm install react-scripts@4.0.2 -g --silent
 
 # add app
 COPY . .
 
 # environment variables
-ENV REACT_APP_BACKEND_HOST api-comuniohelper.ddns.net
-ENV REACT_APP_BACKEND_PORT 8080
+ENV REACT_APP_BACKEND_URL http://api-comuniohelper:8080.ddns.net
 
 # build application
 RUN npm run build
