@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPlayerSnapshots } from '../modules/playerSnapshots'
 import { getPlayer } from '../modules/players'
-import { ComposedChart, Line, Bar, XAxis, Label, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
+import { ComposedChart, Line, XAxis, Label, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import moment from 'moment'
 
 
@@ -40,7 +40,9 @@ const PlayerItem = (props) => {
                         margin={{ left: 20 }}>
 
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="date" />
+                        <XAxis dataKey={(v) => moment({
+                            year: v.created[0], month: v.created[1] - 1, day: v.created[2]
+                        }).format('DD.MM.YYYY')} />
                         <YAxis yAxisId="market_value" tickFormatter={monetaryFormatterSmall} />
                         <YAxis yAxisId="points" orientation="right" >
                             <Label
@@ -60,9 +62,9 @@ const PlayerItem = (props) => {
                             name="Market Value"
                             stroke="#8884d8"
                             strokeWidth={2} />
-                        <Bar yAxisId="points"
+                        <Line yAxisId="points"
                             type="monotone"
-                            dataKey="points_per_day"
+                            dataKey="points_during_current_season"
                             name="Points"
                             fill="#413ea0"
                             strokeWidth={2} />
@@ -71,10 +73,10 @@ const PlayerItem = (props) => {
             </div>
         </div>
     )
+
 }
 
 export default PlayerItem
-
 
 function monetaryFormatterSmall(value) {
     if (value > 999999) {
@@ -96,3 +98,4 @@ function chartFormatter(value, name) {
 
     return value
 }
+

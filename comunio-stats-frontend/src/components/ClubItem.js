@@ -30,7 +30,7 @@ const ClubItem = (props) => {
             <div className="row">
                 <div className="list-group col-12 px-2">
                     {playerSnapshots.map((snapshot) => (
-                        <div key={snapshot.player.id} className="list-group-item list-group-item-action flex-column align-items-start">
+                        <div key={snapshot.id} className="list-group-item list-group-item-action flex-column align-items-start">
                             <Link to={`/players/${snapshot.player.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
                                 <div className="d-flex flex-fill justify-content-between">
                                     <h5 className="mb-3 mt-3">{snapshot.player.name}</h5>

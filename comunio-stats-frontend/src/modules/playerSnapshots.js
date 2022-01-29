@@ -6,6 +6,9 @@ export const LIST_PLAYER_SNAPSHOTS = 'LIST_PLAYER_SNAPSHOTS';
 
 const playerSnapshotsReducer = (state = [], action) => {
     switch (action.type) {
+        case LIST_PLAYER_SNAPSHOTS:
+        case LIST_PLAYER_SNAPSHOTS_OF_CLUB:
+            return [];
         case LIST_PLAYER_SNAPSHOTS + SUCCESS_SUFFIX:
         case LIST_PLAYER_SNAPSHOTS_OF_CLUB + SUCCESS_SUFFIX:
             return action.payload.data._embedded ? action.payload.data._embedded.player_snapshot_dto_list : [];
