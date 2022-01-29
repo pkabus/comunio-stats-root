@@ -38,11 +38,11 @@ fi
 
 # build production backend docker image
 echo "Build backend image..."
-docker build -f $BACKEND_PATH/$DOCKERFILE -t pkabus/comunio-stats-backend:$TAG $BACKEND_PATH
+docker build -f $BACKEND_PATH/$DOCKERFILE --rm -t pkabus/comunio-stats-backend:$TAG $BACKEND_PATH
 
 # build production frontend docker iamge
 echo "Build frontend image..."
-docker build -f $FRONTEND_PATH/$DOCKERFILE -t pkabus/comunio-stats-frontend:$TAG $FRONTEND_PATH
+docker build -f $FRONTEND_PATH/$DOCKERFILE --rm -t pkabus/comunio-stats-frontend:$TAG $FRONTEND_PATH
 
 docker-compose -f $COMPOSE_FILE down $REMOVE_DB_VOLUME
 
