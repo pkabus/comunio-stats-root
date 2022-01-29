@@ -1,5 +1,5 @@
 # pull official base image
-FROM arm32v7/node:dubnium-slim
+FROM arm32v7/node:erbium-slim
 
 # set working directory
 WORKDIR /usr/src/app
