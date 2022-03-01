@@ -23,8 +23,8 @@ class CrawlClubSpider(CrawlSpider):
         
         for row in player_rows:
             item = PlayerItem()
-            item['name'] = row.xpath(".//a[contains(@class, 'playerName')]/text()").extract()
-            item['link'] = row.xpath(".//a[contains(@class, 'playerName')]/@href").extract()
+            item['name'] = row.xpath(".//a[contains(@class, 'playerName')][1]/text()").extract()
+            item['link'] = row.xpath(".//a[contains(@class, 'playerName')][1]/@href").extract()
             item['id'] = re.search(r"[0-9]+", item['link'].__str__()).group()
             item['position'] = row.xpath(".//img[contains(@class, 'pos')]/@title").extract()
             item['points_during_current_season'] = row.xpath(".//td[4]/text()").extract()
