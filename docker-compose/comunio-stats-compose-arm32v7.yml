@@ -37,5 +37,23 @@ services:
     ports:
       - "1337:3000"
 
+  prometheus:
+    container_name: comunio-stats-prometheus
+    image: prom/prometheus:v2.33.4
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  grafana:
+    container_name: comunio-stats-grafana
+    image: grafana/grafana-arm32v7-linux:6.7.6
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+    depends_on:
+      - prometheus      
+
 volumes:
   db-data:
