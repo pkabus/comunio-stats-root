@@ -19,7 +19,7 @@ class CrawlClubSpider(CrawlSpider):
     def parse_club(self, response):
         now = datetime.datetime.now()
         # TODO club = response.xpath("")
-        player_rows = response.xpath("//table[contains(@class, 'playersTable')]/tbody/tr")
+        player_rows = response.xpath("//div[@id='content']/table[contains(@class, 'playersTable')]/tbody/tr")
         
         for row in player_rows:
             item = PlayerItem()
