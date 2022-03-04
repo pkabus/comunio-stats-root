@@ -52,8 +52,10 @@ services:
       - "3000:3000"
     volumes:
       - ./datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - grafana-storage:/var/lib/grafana # saves grafana storage with dashboard customizations and user information
     depends_on:
       - prometheus
       
 volumes:
   db-data:
+  grafana-storage:
