@@ -53,6 +53,7 @@ services:
     volumes:
       - ./datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
       - grafana-storage:/var/lib/grafana # saves grafana storage with dashboard customizations and user information
+      - ./grafana.ini:/etc/grafana/grafana.ini # contains SMTP settings for alerts
     depends_on:
       - prometheus
       
