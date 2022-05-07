@@ -2,3 +2,4 @@
 
 # production
 grafana.ini
+nginx-certbot/data/certbot
