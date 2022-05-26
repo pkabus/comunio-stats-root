@@ -15,7 +15,7 @@ RUN npm install --silent
 COPY . .
 
 # environment variables
-ENV REACT_APP_BACKEND_URL http://comuniohelper.ddns.net:8080
+ENV REACT_APP_BACKEND_URL https://comuniohelper.ddns.net/api
 
 # build application
 RUN npm run build
