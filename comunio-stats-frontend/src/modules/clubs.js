@@ -22,7 +22,7 @@ export const allClubs = () => ({
     type: LIST_CLUBS,
     payload: {
         request: {
-            url: '/clubs/all',
+            url: '/clubs',
         }
     }
 });
