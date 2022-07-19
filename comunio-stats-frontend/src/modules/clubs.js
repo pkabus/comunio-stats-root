@@ -7,6 +7,7 @@ export const SEARCH_CLUBS = 'SEARCH_CLUBS';
 const clubsReducer = (state = [], action) => {
     switch (action.type) {
         case LIST_CLUBS + SUCCESS_SUFFIX:
+            return action.payload.data ? action.payload.data : [];
         case SEARCH_CLUBS + SUCCESS_SUFFIX:
             return action.payload.data._embedded ? action.payload.data._embedded.club_dto_list : [];
         case GET_CLUB + SUCCESS_SUFFIX:
